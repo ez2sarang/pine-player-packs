@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>파인 플레이어 (Pine Player)</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto; padding: 48px 20px 64px; max-width: 40rem;
+    font: 16px/1.75 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", "Apple SD Gothic Neo", Roboto, sans-serif;
+    word-break: keep-all; overflow-wrap: break-word;
+  }
+  h1 { font-size: 1.7rem; margin: 0 0 10px; }
+  .lead { font-size: 1.05rem; margin: 0 0 8px; }
+  .sub { opacity: .75; margin: 0 0 32px; font-size: .95rem; }
+  h2 { font-size: 1.05rem; margin: 36px 0 10px; }
+  ul { padding-left: 1.2em; margin: 0 0 12px; }
+  li { margin-bottom: 8px; }
+  nav { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 8px; }
+  nav a {
+    display: inline-block; padding: 11px 16px; border-radius: 9px;
+    border: 1px solid rgba(128,128,128,.45); text-decoration: none; color: inherit;
+  }
+  code { font-size: .88em; padding: 1px 5px; border-radius: 4px; background: rgba(128,128,128,.18); word-break: break-all; }
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid rgba(128,128,128,.35); font-size: .9rem; opacity: .8; }
+  footer p { margin: 0 0 6px; }
+  a { color: inherit; }
+</style>
+</head>
+<body>
+
+<h1>파인 플레이어 <span style="font-weight:400; opacity:.7;">Pine Player</span></h1>
+<p class="lead">이미 쓰고 있는 음악 앱을 한국어 음성으로 조작하는 안드로이드 앱입니다.</p>
+<p class="sub">"다음 곡", "좋아요", "이 곡 플레이리스트에서 빼줘" 처럼 말하면 대신 눌러 줍니다.</p>
+
+<nav>
+  <a href="./privacy.html">개인정보처리방침</a>
+  <a href="https://github.com/ez2sarang/pine-player-packs">플레이어 팩 저장소</a>
+  <a href="https://raw.githubusercontent.com/ez2sarang/pine-player-packs/main/catalog.json">팩 카탈로그 (JSON)</a>
+</nav>
+
+<h2>플레이어 팩이란</h2>
+<p>파인 플레이어가 새 음악 앱을 다루는 법을 적어 둔 <strong>설정값(JSON)</strong>입니다. 실행 코드는 들어 있지 않고, 앱은 이 값만 읽습니다. 앱 설정의 "팩 받기"에서 목록을 보고 고르면 기기에 저장되고, 같은 화면에서 지울 수 있습니다.</p>
+<ul>
+  <li>팩 하나가 파일 하나입니다: <code>packs/&lt;id&gt;.json</code></li>
+  <li><code>catalog.json</code> 이 팩 목록이며, 항목마다 주소와 <code>sha256</code> 해시가 있습니다.</li>
+  <li>앱은 HTTPS로 받아 해시가 맞을 때만 설치합니다.</li>
+</ul>
+
+<footer>
+  <p>문의: <a href="mailto:ez2sarang@gmail.com">ez2sarang@gmail.com</a></p>
+  <p>플레이어 팩은 MIT 라이선스로 공개됩니다.</p>
+</footer>
+
+</body>
+</html>
