@@ -1,24 +1,118 @@
 {
   "format": 1,
   "id": "genie",
-  "version": 1,
+  "version": 2,
   "nameKo": "지니",
   "nameEn": "Genie",
   "aliases": ["지니", "지니뮤직", "genie"],
   "packageName": "com.ktmusic.geniemusic",
   "tier": "AD_UNLOCK",
   "unlockHours": 24,
-  "note": "실기기 조사 전이라 확인된 기능은 앱 띄우기뿐이다. 나머지는 pendingCapabilities 에 후보로만 적어 둔다.",
-  "capabilities": ["OPEN_APP"],
-  "pendingCapabilities": [
+  "note": "2026-09-05 실기기(06.01.04, 로그아웃 상태) 조사값. 세션 actions=2359606 이라 SET_REPEAT_MODE·SET_SHUFFLE_MODE 비트는 있지만 PLAY_FROM_SEARCH 비트는 없다. 그래서 검색 재생은 MEDIA_PLAY_FROM_SEARCH 인텐트로만 한다(실측: 곧바로 재생, 2회 재현). playlistRemove 는 '현재 재생목록(큐)에서 빼기'다. 미검증: 좋아요 상태(접근성 트리에 전혀 안 나온다), 미니 플레이어를 펼치는 방법, 삭제 확인창 유무, 셔플·반복을 세션으로 바꾸는 경로.",
+  "capabilities": [
     "TRANSPORT",
     "SEEK",
     "NOW_PLAYING",
     "VOLUME",
+    "OPEN_APP",
     "SEARCH_PLAY",
     "LIKE_UI",
-    "PLAYLIST_REMOVE_UI"
+    "PLAYLIST_REMOVE_UI",
+    "REPEAT",
+    "SHUFFLE"
   ],
   "customActions": {},
-  "automation": { "type": "none" }
+  "automation": {
+    "type": "recipe",
+    "recipes": {
+      "searchPlay": [
+        { "op": "searchIntent", "query": "{query}" },
+        { "op": "done", "message": "지니에 ‘{query}’ 검색 재생을 보냈어요" }
+      ],
+      "like": [
+        { "op": "launch" },
+        {
+          "op": "ifPresent",
+          "selector": { "id": "com.ktmusic.geniemusic:id/tvClose" },
+          "then": [{ "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/tvClose" } }]
+        },
+        {
+          "op": "ifPresent",
+          "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" },
+          "else": [{ "op": "click", "selector": { "textContains": "{title}" } }]
+        },
+        { "op": "waitFor", "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" }, "timeoutMs": 8000 },
+        { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" } },
+        { "op": "done", "message": "좋아요 버튼을 눌렀어요. 지니는 상태를 알려주지 않아요" }
+      ],
+      "unlike": [
+        { "op": "launch" },
+        {
+          "op": "ifPresent",
+          "selector": { "id": "com.ktmusic.geniemusic:id/tvClose" },
+          "then": [{ "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/tvClose" } }]
+        },
+        {
+          "op": "ifPresent",
+          "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" },
+          "else": [{ "op": "click", "selector": { "textContains": "{title}" } }]
+        },
+        { "op": "waitFor", "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" }, "timeoutMs": 8000 },
+        { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" } },
+        { "op": "done", "message": "좋아요 버튼을 눌렀어요. 지니는 상태를 알려주지 않아요" }
+      ],
+      "playlistRemove": [
+        { "op": "launch" },
+        {
+          "op": "ifPresent",
+          "selector": { "id": "com.ktmusic.geniemusic:id/tvClose" },
+          "then": [{ "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/tvClose" } }]
+        },
+        { "op": "pauseIfPlaying" },
+        {
+          "op": "ifPresent",
+          "selector": { "id": "com.ktmusic.geniemusic:id/ivMPPlaylistBtn" },
+          "else": [{ "op": "click", "selector": { "textContains": "{title}" } }]
+        },
+        {
+          "op": "waitFor",
+          "selector": { "id": "com.ktmusic.geniemusic:id/ivMPPlaylistBtn" },
+          "timeoutMs": 8000
+        },
+        { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/ivMPPlaylistBtn" } },
+        {
+          "op": "waitFor",
+          "selector": { "id": "com.ktmusic.geniemusic:id/tv_play_list_title_right_txt_btn", "text": "편집" },
+          "timeoutMs": 8000
+        },
+        {
+          "op": "click",
+          "selector": { "id": "com.ktmusic.geniemusic:id/tv_play_list_title_right_txt_btn", "text": "편집" }
+        },
+        {
+          "op": "scrollUntil",
+          "selector": { "id": "com.ktmusic.geniemusic:id/tv_list_item_song_name", "text": "{title}" },
+          "maxScrolls": 20
+        },
+        {
+          "op": "click",
+          "selector": {
+            "withinRow": {
+              "row": { "id": "com.ktmusic.geniemusic:id/tv_list_item_song_name", "text": "{title}" },
+              "child": { "id": "com.ktmusic.geniemusic:id/iv_list_item_front_img" }
+            }
+          }
+        },
+        {
+          "op": "waitFor",
+          "selector": { "id": "com.ktmusic.geniemusic:id/common_btm_menu_4" },
+          "timeoutMs": 6000
+        },
+        { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/common_btm_menu_4" } },
+        { "op": "confirm" },
+        { "op": "back", "times": 1 },
+        { "op": "done", "message": "재생목록에서 ‘{title}’을(를) 뺐어요" }
+      ]
+    }
+  }
 }

@@ -1,24 +1,98 @@
 {
   "format": 1,
   "id": "melon",
-  "version": 1,
+  "version": 2,
   "nameKo": "멜론",
   "nameEn": "Melon",
   "aliases": ["멜론", "멜론에서", "melon"],
   "packageName": "com.iloen.melon",
   "tier": "AD_UNLOCK",
   "unlockHours": 24,
-  "note": "실기기 조사 전이라 확인된 기능은 앱 띄우기뿐이다. 나머지는 pendingCapabilities 에 후보로만 적어 둔다.",
-  "capabilities": ["OPEN_APP"],
-  "pendingCapabilities": [
+  "note": "2026-09-05 실기기(6.25.2.1, 로그아웃 상태) 조사값. 세션 비트 실측: STOP/PAUSE/PLAY/SKIP_PREV/SKIP_NEXT/SEEK_TO/PLAY_PAUSE/PLAY_FROM_SEARCH. 커스텀 액션은 Shuffle Off/Repeat Off 로 상태와 무관하게 고정이라 셔플·반복은 넣지 않았다. playlistRemove 는 '현재 재생목록(큐)에서 빼기'다. 내 플레이리스트 편집은 로그인 후 조사. 미검증: 좋아요된 상태의 desc 문구, 재생목록 행의 체크박스(행이 컴포즈 노드 하나라 자식이 없어 좌표 6%로 누른다), 삭제 확인창 유무.",
+  "capabilities": [
     "TRANSPORT",
     "SEEK",
     "NOW_PLAYING",
     "VOLUME",
+    "OPEN_APP",
     "SEARCH_PLAY",
     "LIKE_UI",
     "PLAYLIST_REMOVE_UI"
   ],
   "customActions": {},
-  "automation": { "type": "none" }
+  "automation": {
+    "type": "recipe",
+    "recipes": {
+      "searchPlay": [
+        { "op": "searchIntent", "query": "{query}" },
+        { "op": "waitFor", "selector": { "text": "재생" }, "timeoutMs": 8000 },
+        { "op": "click", "selector": { "text": "재생" } },
+        { "op": "done", "message": "멜론에서 ‘{query}’를 틀었어요" }
+      ],
+      "like": [
+        { "op": "launch" },
+        { "op": "waitFor", "selector": { "desc": "재생목록으로 이동" }, "timeoutMs": 8000 },
+        { "op": "click", "selector": { "desc": "더보기" } },
+        { "op": "waitFor", "selector": { "id": "com.iloen.melon:id/btn_like" }, "timeoutMs": 6000 },
+        {
+          "op": "ifPresent",
+          "selector": { "id": "com.iloen.melon:id/btn_like", "descContains": "좋아요 선택하기" },
+          "then": [
+            { "op": "click", "selector": { "id": "com.iloen.melon:id/btn_like" } },
+            { "op": "click", "selector": { "id": "com.iloen.melon:id/close_btn" } },
+            { "op": "done", "message": "멜론에서 좋아요를 눌렀어요" }
+          ],
+          "else": [
+            { "op": "click", "selector": { "id": "com.iloen.melon:id/close_btn" } },
+            { "op": "done", "message": "이미 좋아요된 곡이에요" }
+          ]
+        }
+      ],
+      "unlike": [
+        { "op": "launch" },
+        { "op": "waitFor", "selector": { "desc": "재생목록으로 이동" }, "timeoutMs": 8000 },
+        { "op": "click", "selector": { "desc": "더보기" } },
+        { "op": "waitFor", "selector": { "id": "com.iloen.melon:id/btn_like" }, "timeoutMs": 6000 },
+        {
+          "op": "ifPresent",
+          "selector": { "id": "com.iloen.melon:id/btn_like", "descContains": "좋아요 선택하기" },
+          "then": [
+            { "op": "click", "selector": { "id": "com.iloen.melon:id/close_btn" } },
+            { "op": "done", "message": "이 곡은 좋아요가 안 눌려 있어요" }
+          ],
+          "else": [
+            { "op": "click", "selector": { "id": "com.iloen.melon:id/btn_like" } },
+            { "op": "click", "selector": { "id": "com.iloen.melon:id/close_btn" } },
+            { "op": "done", "message": "멜론에서 좋아요를 껐어요" }
+          ]
+        }
+      ],
+      "playlistRemove": [
+        { "op": "launch" },
+        { "op": "waitFor", "selector": { "desc": "재생목록으로 이동" }, "timeoutMs": 8000 },
+        { "op": "pauseIfPlaying" },
+        { "op": "click", "selector": { "desc": "재생목록으로 이동" } },
+        {
+          "op": "waitFor",
+          "selector": { "descContains": "{title}, 아티스트: {artist}" },
+          "timeoutMs": 8000
+        },
+        {
+          "op": "clickAt",
+          "selector": { "descContains": "{title}, 아티스트: {artist}" },
+          "xPercent": 6,
+          "yPercent": 50
+        },
+        {
+          "op": "waitFor",
+          "selector": { "id": "com.iloen.melon:id/btn_toolbar", "text": "삭제" },
+          "timeoutMs": 6000
+        },
+        { "op": "click", "selector": { "id": "com.iloen.melon:id/btn_toolbar", "text": "삭제" } },
+        { "op": "confirm" },
+        { "op": "back", "times": 1 },
+        { "op": "done", "message": "재생목록에서 ‘{title}’을(를) 뺐어요" }
+      ]
+    }
+  }
 }

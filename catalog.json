@@ -3,21 +3,21 @@
   "packs": [
     {
       "id": "melon",
-      "version": 1,
+      "version": 2,
       "nameKo": "멜론",
       "tier": "AD_UNLOCK",
       "url": "https://raw.githubusercontent.com/ez2sarang/pine-player-packs/main/packs/melon.json",
-      "sha256": "7d693cad35c61a62efc045545c15e011e7f8fbfc06d0d35057fc918c2bf41219",
-      "size": 617
+      "sha256": "be14e2e33b991eccae802efdd5bcb10f38c0ce97b634fb180f7f1d84f98832f5",
+      "size": 4312
     },
     {
       "id": "genie",
-      "version": 1,
+      "version": 2,
       "nameKo": "지니",
       "tier": "AD_UNLOCK",
       "url": "https://raw.githubusercontent.com/ez2sarang/pine-player-packs/main/packs/genie.json",
-      "sha256": "eed6b27f7ad35febc3aca1840880e51995a6c479e978fd6b39a191c2da6f2c49",
-      "size": 624
+      "sha256": "9534d29c74a689334d1e4ca0706953fc1a02383dbd7f65f47c59836307569d59",
+      "size": 4843
     },
     {
       "id": "bugs",
