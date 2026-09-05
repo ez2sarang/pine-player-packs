@@ -1,0 +1,32 @@
+{
+  "format": 1,
+  "packs": [
+    {
+      "id": "melon",
+      "version": 1,
+      "nameKo": "멜론",
+      "tier": "AD_UNLOCK",
+      "url": "https://raw.githubusercontent.com/ez2sarang/pine-player-packs/main/packs/melon.json",
+      "sha256": "7d693cad35c61a62efc045545c15e011e7f8fbfc06d0d35057fc918c2bf41219",
+      "size": 617
+    },
+    {
+      "id": "genie",
+      "version": 1,
+      "nameKo": "지니",
+      "tier": "AD_UNLOCK",
+      "url": "https://raw.githubusercontent.com/ez2sarang/pine-player-packs/main/packs/genie.json",
+      "sha256": "eed6b27f7ad35febc3aca1840880e51995a6c479e978fd6b39a191c2da6f2c49",
+      "size": 624
+    },
+    {
+      "id": "bugs",
+      "version": 1,
+      "nameKo": "벅스",
+      "tier": "SUBSCRIPTION",
+      "url": "https://raw.githubusercontent.com/ez2sarang/pine-player-packs/main/packs/bugs.json",
+      "sha256": "1ebdd77b9325391858a1e9a860b74e1d05c30dd0fb696705fdffe007ab845170",
+      "size": 604
+    }
+  ]
+}

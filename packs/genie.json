@@ -1,0 +1,24 @@
+{
+  "format": 1,
+  "id": "genie",
+  "version": 1,
+  "nameKo": "지니",
+  "nameEn": "Genie",
+  "aliases": ["지니", "지니뮤직", "genie"],
+  "packageName": "com.ktmusic.geniemusic",
+  "tier": "AD_UNLOCK",
+  "unlockHours": 24,
+  "note": "실기기 조사 전이라 확인된 기능은 앱 띄우기뿐이다. 나머지는 pendingCapabilities 에 후보로만 적어 둔다.",
+  "capabilities": ["OPEN_APP"],
+  "pendingCapabilities": [
+    "TRANSPORT",
+    "SEEK",
+    "NOW_PLAYING",
+    "VOLUME",
+    "SEARCH_PLAY",
+    "LIKE_UI",
+    "PLAYLIST_REMOVE_UI"
+  ],
+  "customActions": {},
+  "automation": { "type": "none" }
+}
