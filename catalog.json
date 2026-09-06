@@ -4,12 +4,12 @@
     {
       "id": "melon",
       "packageName": "com.iloen.melon",
-      "version": 8,
+      "version": 9,
       "nameKo": "멜론",
       "tier": "AD_UNLOCK",
       "url": "https://raw.githubusercontent.com/ez2sarang/pine-player-packs/main/packs/melon.json",
-      "sha256": "9d6453fcb895f7b4eefce59d29a2b4b643e0fc90c4339e6c414e42bbeddd546c",
-      "size": 16588
+      "sha256": "d7ffe629d600cc7fbd7256a0ea561dbf72450a22f85829f50251d91a1e4db4e7",
+      "size": 18737
     },
     {
       "id": "genie",
