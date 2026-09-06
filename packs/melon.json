@@ -1,14 +1,14 @@
 {
   "format": 1,
   "id": "melon",
-  "version": 2,
+  "version": 3,
   "nameKo": "멜론",
   "nameEn": "Melon",
   "aliases": ["멜론", "멜론에서", "melon"],
   "packageName": "com.iloen.melon",
   "tier": "AD_UNLOCK",
   "unlockHours": 24,
-  "note": "2026-09-05 실기기(6.25.2.1, 로그아웃 상태) 조사값. 세션 비트 실측: STOP/PAUSE/PLAY/SKIP_PREV/SKIP_NEXT/SEEK_TO/PLAY_PAUSE/PLAY_FROM_SEARCH. 커스텀 액션은 Shuffle Off/Repeat Off 로 상태와 무관하게 고정이라 셔플·반복은 넣지 않았다. playlistRemove 는 '현재 재생목록(큐)에서 빼기'다. 내 플레이리스트 편집은 로그인 후 조사. 미검증: 좋아요된 상태의 desc 문구, 재생목록 행의 체크박스(행이 컴포즈 노드 하나라 자식이 없어 좌표 6%로 누른다), 삭제 확인창 유무.",
+  "note": "2026-09-05 실기기(6.25.2.1, 로그아웃 상태) 조사값. 세션 비트 실측: STOP/PAUSE/PLAY/SKIP_PREV/SKIP_NEXT/SEEK_TO/PLAY_PAUSE/PLAY_FROM_SEARCH. 커스텀 액션은 Shuffle Off/Repeat Off 로 상태와 무관하게 고정이라 셔플·반복은 넣지 않았다. playlistRemove 는 '현재 재생목록(큐)에서 빼기'다. 내 플레이리스트 편집은 로그인 후 조사. 2차 실기기 검증(2026-09-06): 로그아웃이면 '전곡 듣기는 로그인 후…' 배너가 미니 플레이어 줄을 덮어 접근성 트리에 content 와 '로그인 팝업 닫기' 두 노드만 남는다. 그래서 모든 레시피가 앵커(재생목록으로 이동)를 기다리기 전에 배너를 닫고, 곡이 바뀌면 다시 뜨므로 앵커를 잡은 뒤 한 번 더 닫는다. 미검증: 좋아요된 상태의 desc 문구, 재생목록 행의 체크박스(행이 컴포즈 노드 하나라 자식이 없어 좌표 6%로 누른다), 삭제 확인창 유무.",
   "capabilities": [
     "TRANSPORT",
     "SEEK",
@@ -31,7 +31,22 @@
       ],
       "like": [
         { "op": "launch" },
-        { "op": "waitFor", "selector": { "desc": "재생목록으로 이동" }, "timeoutMs": 8000 },
+        {
+          "op": "ifPresent",
+          "selector": { "desc": "로그인 팝업 닫기" },
+          "then": [{ "op": "click", "selector": { "desc": "로그인 팝업 닫기" } }]
+        },
+        {
+          "op": "waitFor",
+          "selector": { "desc": "재생목록으로 이동" },
+          "timeoutMs": 8000,
+          "failMessage": "멜론 화면에서 재생목록 버튼을 찾지 못했어요. 로그인이 필요할 수 있어요"
+        },
+        {
+          "op": "ifPresent",
+          "selector": { "desc": "로그인 팝업 닫기" },
+          "then": [{ "op": "click", "selector": { "desc": "로그인 팝업 닫기" } }]
+        },
         { "op": "click", "selector": { "desc": "더보기" } },
         { "op": "waitFor", "selector": { "id": "com.iloen.melon:id/btn_like" }, "timeoutMs": 6000 },
         {
@@ -50,7 +65,22 @@
       ],
       "unlike": [
         { "op": "launch" },
-        { "op": "waitFor", "selector": { "desc": "재생목록으로 이동" }, "timeoutMs": 8000 },
+        {
+          "op": "ifPresent",
+          "selector": { "desc": "로그인 팝업 닫기" },
+          "then": [{ "op": "click", "selector": { "desc": "로그인 팝업 닫기" } }]
+        },
+        {
+          "op": "waitFor",
+          "selector": { "desc": "재생목록으로 이동" },
+          "timeoutMs": 8000,
+          "failMessage": "멜론 화면에서 재생목록 버튼을 찾지 못했어요. 로그인이 필요할 수 있어요"
+        },
+        {
+          "op": "ifPresent",
+          "selector": { "desc": "로그인 팝업 닫기" },
+          "then": [{ "op": "click", "selector": { "desc": "로그인 팝업 닫기" } }]
+        },
         { "op": "click", "selector": { "desc": "더보기" } },
         { "op": "waitFor", "selector": { "id": "com.iloen.melon:id/btn_like" }, "timeoutMs": 6000 },
         {
@@ -69,8 +99,23 @@
       ],
       "playlistRemove": [
         { "op": "launch" },
-        { "op": "waitFor", "selector": { "desc": "재생목록으로 이동" }, "timeoutMs": 8000 },
+        {
+          "op": "ifPresent",
+          "selector": { "desc": "로그인 팝업 닫기" },
+          "then": [{ "op": "click", "selector": { "desc": "로그인 팝업 닫기" } }]
+        },
+        {
+          "op": "waitFor",
+          "selector": { "desc": "재생목록으로 이동" },
+          "timeoutMs": 8000,
+          "failMessage": "멜론 화면에서 재생목록 버튼을 찾지 못했어요. 로그인이 필요할 수 있어요"
+        },
         { "op": "pauseIfPlaying" },
+        {
+          "op": "ifPresent",
+          "selector": { "desc": "로그인 팝업 닫기" },
+          "then": [{ "op": "click", "selector": { "desc": "로그인 팝업 닫기" } }]
+        },
         { "op": "click", "selector": { "desc": "재생목록으로 이동" } },
         {
           "op": "waitFor",

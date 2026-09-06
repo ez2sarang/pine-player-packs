@@ -4,22 +4,22 @@
     {
       "id": "melon",
       "packageName": "com.iloen.melon",
-      "version": 2,
+      "version": 3,
       "nameKo": "멜론",
       "tier": "AD_UNLOCK",
       "url": "https://raw.githubusercontent.com/ez2sarang/pine-player-packs/main/packs/melon.json",
-      "sha256": "be14e2e33b991eccae802efdd5bcb10f38c0ce97b634fb180f7f1d84f98832f5",
-      "size": 4312
+      "sha256": "c225b62da2c8aa959a69f1b552be1963055649bd8b148d055c2ece0b1f0ba415",
+      "size": 6413
     },
     {
       "id": "genie",
       "packageName": "com.ktmusic.geniemusic",
-      "version": 2,
+      "version": 3,
       "nameKo": "지니",
       "tier": "AD_UNLOCK",
       "url": "https://raw.githubusercontent.com/ez2sarang/pine-player-packs/main/packs/genie.json",
-      "sha256": "9534d29c74a689334d1e4ca0706953fc1a02383dbd7f65f47c59836307569d59",
-      "size": 4843
+      "sha256": "de8132b4d992e18b874229f118b55bccfea55d14516c486bb372fffb28ae9055",
+      "size": 8337
     },
     {
       "id": "bugs",

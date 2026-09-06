@@ -1,14 +1,14 @@
 {
   "format": 1,
   "id": "genie",
-  "version": 2,
+  "version": 3,
   "nameKo": "지니",
   "nameEn": "Genie",
   "aliases": ["지니", "지니뮤직", "genie"],
   "packageName": "com.ktmusic.geniemusic",
   "tier": "AD_UNLOCK",
   "unlockHours": 24,
-  "note": "2026-09-05 실기기(06.01.04, 로그아웃 상태) 조사값. 세션 actions=2359606 이라 SET_REPEAT_MODE·SET_SHUFFLE_MODE 비트는 있지만 PLAY_FROM_SEARCH 비트는 없다. 그래서 검색 재생은 MEDIA_PLAY_FROM_SEARCH 인텐트로만 한다(실측: 곧바로 재생, 2회 재현). playlistRemove 는 '현재 재생목록(큐)에서 빼기'다. 미검증: 좋아요 상태(접근성 트리에 전혀 안 나온다), 미니 플레이어를 펼치는 방법, 삭제 확인창 유무, 셔플·반복을 세션으로 바꾸는 경로.",
+  "note": "2026-09-05 실기기(06.01.04, 로그아웃 상태) 조사값. 세션 actions=2359606 이라 SET_REPEAT_MODE(1<<18)·SET_SHUFFLE_MODE(1<<21) 비트는 있지만 PLAY_FROM_SEARCH 비트는 없다. 그래서 검색 재생은 MEDIA_PLAY_FROM_SEARCH 인텐트로만 한다(실측: 곧바로 재생, 2회 재현). playlistRemove 는 '현재 재생목록(큐)에서 빼기'다. 2차 실기기 검증(2026-09-06) 반영: (1) ivMPLikeBtn·ivMPPlaylistBtn 은 전체 플레이어에만 있다. 미니 플레이어는 song_name_text·artist_name_text·prev_button_image·play_pause_button_image·next_button_image·playlist_or_exit_button_image·tv_common_title_login_btn 이라, 펼칠 때는 제목 글자가 아니라 song_name_text 를 누르고 큐는 playlist_or_exit_button_image 로 바로 연다. (2) 세션 제목과 화면 글자가 다르다(‘좋은 날 (Inst.)’ ↔ ‘좋은 날’)서 목록에서는 {titleBase} 로 부분 일치를 본다. (3) compat 셔플·반복 커스텀 액션은 androidx 와 형식이 같은데도 아무 변화가 없어 화면 버튼(ivMPShuffleBtn·ivMPRepeatBtn) 레시피를 넣었다. 미검증: 좋아요 상태(접근성 트리에 전혀 안 나온다), 삭제 확인창 유무, 셔플·반복 버튼을 눌렀을 때 실제로 바뀌는지.",
   "capabilities": [
     "TRANSPORT",
     "SEEK",
@@ -39,9 +39,16 @@
         {
           "op": "ifPresent",
           "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" },
-          "else": [{ "op": "click", "selector": { "textContains": "{title}" } }]
+          "else": [
+            { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" } }
+          ]
         },
-        { "op": "waitFor", "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" }, "timeoutMs": 8000 },
+        {
+          "op": "waitFor",
+          "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" },
+          "timeoutMs": 8000,
+          "failMessage": "지니 재생 화면을 열지 못했어요"
+        },
         { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" } },
         { "op": "done", "message": "좋아요 버튼을 눌렀어요. 지니는 상태를 알려주지 않아요" }
       ],
@@ -55,11 +62,62 @@
         {
           "op": "ifPresent",
           "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" },
-          "else": [{ "op": "click", "selector": { "textContains": "{title}" } }]
+          "else": [
+            { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" } }
+          ]
         },
-        { "op": "waitFor", "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" }, "timeoutMs": 8000 },
+        {
+          "op": "waitFor",
+          "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" },
+          "timeoutMs": 8000,
+          "failMessage": "지니 재생 화면을 열지 못했어요"
+        },
         { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" } },
         { "op": "done", "message": "좋아요 버튼을 눌렀어요. 지니는 상태를 알려주지 않아요" }
+      ],
+      "shuffle": [
+        { "op": "launch" },
+        {
+          "op": "ifPresent",
+          "selector": { "id": "com.ktmusic.geniemusic:id/tvClose" },
+          "then": [{ "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/tvClose" } }]
+        },
+        {
+          "op": "ifPresent",
+          "selector": { "id": "com.ktmusic.geniemusic:id/ivMPShuffleBtn" },
+          "else": [
+            { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" } }
+          ]
+        },
+        {
+          "op": "waitFor",
+          "selector": { "id": "com.ktmusic.geniemusic:id/ivMPShuffleBtn" },
+          "timeoutMs": 8000,
+          "failMessage": "지니 재생 화면에서 셔플 버튼을 찾지 못했어요"
+        },
+        { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/ivMPShuffleBtn" } }
+      ],
+      "repeat": [
+        { "op": "launch" },
+        {
+          "op": "ifPresent",
+          "selector": { "id": "com.ktmusic.geniemusic:id/tvClose" },
+          "then": [{ "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/tvClose" } }]
+        },
+        {
+          "op": "ifPresent",
+          "selector": { "id": "com.ktmusic.geniemusic:id/ivMPRepeatBtn" },
+          "else": [
+            { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" } }
+          ]
+        },
+        {
+          "op": "waitFor",
+          "selector": { "id": "com.ktmusic.geniemusic:id/ivMPRepeatBtn" },
+          "timeoutMs": 8000,
+          "failMessage": "지니 재생 화면에서 반복 버튼을 찾지 못했어요"
+        },
+        { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/ivMPRepeatBtn" } }
       ],
       "playlistRemove": [
         { "op": "launch" },
@@ -71,19 +129,35 @@
         { "op": "pauseIfPlaying" },
         {
           "op": "ifPresent",
-          "selector": { "id": "com.ktmusic.geniemusic:id/ivMPPlaylistBtn" },
-          "else": [{ "op": "click", "selector": { "textContains": "{title}" } }]
+          "selector": { "id": "com.ktmusic.geniemusic:id/playlist_or_exit_button_image" },
+          "then": [
+            {
+              "op": "click",
+              "selector": { "id": "com.ktmusic.geniemusic:id/playlist_or_exit_button_image" }
+            }
+          ],
+          "else": [
+            {
+              "op": "ifPresent",
+              "selector": { "id": "com.ktmusic.geniemusic:id/ivMPPlaylistBtn" },
+              "else": [
+                { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" } }
+              ]
+            },
+            {
+              "op": "waitFor",
+              "selector": { "id": "com.ktmusic.geniemusic:id/ivMPPlaylistBtn" },
+              "timeoutMs": 8000,
+              "failMessage": "지니 재생목록 버튼을 찾지 못했어요"
+            },
+            { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/ivMPPlaylistBtn" } }
+          ]
         },
-        {
-          "op": "waitFor",
-          "selector": { "id": "com.ktmusic.geniemusic:id/ivMPPlaylistBtn" },
-          "timeoutMs": 8000
-        },
-        { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/ivMPPlaylistBtn" } },
         {
           "op": "waitFor",
           "selector": { "id": "com.ktmusic.geniemusic:id/tv_play_list_title_right_txt_btn", "text": "편집" },
-          "timeoutMs": 8000
+          "timeoutMs": 8000,
+          "failMessage": "지니 재생목록 화면을 열지 못했어요"
         },
         {
           "op": "click",
@@ -91,14 +165,20 @@
         },
         {
           "op": "scrollUntil",
-          "selector": { "id": "com.ktmusic.geniemusic:id/tv_list_item_song_name", "text": "{title}" },
+          "selector": {
+            "id": "com.ktmusic.geniemusic:id/tv_list_item_song_name",
+            "textContains": "{titleBase}"
+          },
           "maxScrolls": 20
         },
         {
           "op": "click",
           "selector": {
             "withinRow": {
-              "row": { "id": "com.ktmusic.geniemusic:id/tv_list_item_song_name", "text": "{title}" },
+              "row": {
+                "id": "com.ktmusic.geniemusic:id/tv_list_item_song_name",
+                "textContains": "{titleBase}"
+              },
               "child": { "id": "com.ktmusic.geniemusic:id/iv_list_item_front_img" }
             }
           }
