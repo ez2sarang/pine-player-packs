@@ -1,14 +1,14 @@
 {
   "format": 1,
   "id": "genie",
-  "version": 3,
+  "version": 4,
   "nameKo": "지니",
   "nameEn": "Genie",
   "aliases": ["지니", "지니뮤직", "genie"],
   "packageName": "com.ktmusic.geniemusic",
   "tier": "AD_UNLOCK",
   "unlockHours": 24,
-  "note": "2026-09-05 실기기(06.01.04, 로그아웃 상태) 조사값. 세션 actions=2359606 이라 SET_REPEAT_MODE(1<<18)·SET_SHUFFLE_MODE(1<<21) 비트는 있지만 PLAY_FROM_SEARCH 비트는 없다. 그래서 검색 재생은 MEDIA_PLAY_FROM_SEARCH 인텐트로만 한다(실측: 곧바로 재생, 2회 재현). playlistRemove 는 '현재 재생목록(큐)에서 빼기'다. 2차 실기기 검증(2026-09-06) 반영: (1) ivMPLikeBtn·ivMPPlaylistBtn 은 전체 플레이어에만 있다. 미니 플레이어는 song_name_text·artist_name_text·prev_button_image·play_pause_button_image·next_button_image·playlist_or_exit_button_image·tv_common_title_login_btn 이라, 펼칠 때는 제목 글자가 아니라 song_name_text 를 누르고 큐는 playlist_or_exit_button_image 로 바로 연다. (2) 세션 제목과 화면 글자가 다르다(‘좋은 날 (Inst.)’ ↔ ‘좋은 날’)서 목록에서는 {titleBase} 로 부분 일치를 본다. (3) compat 셔플·반복 커스텀 액션은 androidx 와 형식이 같은데도 아무 변화가 없어 화면 버튼(ivMPShuffleBtn·ivMPRepeatBtn) 레시피를 넣었다. 미검증: 좋아요 상태(접근성 트리에 전혀 안 나온다), 삭제 확인창 유무, 셔플·반복 버튼을 눌렀을 때 실제로 바뀌는지.",
+  "note": "2026-09-05 실기기(06.01.04, 로그아웃 상태) 조사값. 세션 actions=2359606 이라 SET_REPEAT_MODE(1<<18)·SET_SHUFFLE_MODE(1<<21) 비트는 있지만 PLAY_FROM_SEARCH 비트는 없다. 그래서 검색 재생은 MEDIA_PLAY_FROM_SEARCH 인텐트로만 한다(실측: 곧바로 재생, 2회 재현). playlistRemove 는 '현재 재생목록(큐)에서 빼기'다. 2차 실기기 검증(2026-09-06) 반영: (1) ivMPLikeBtn·ivMPPlaylistBtn 은 전체 플레이어에만 있다. 미니 플레이어는 song_name_text·artist_name_text·prev_button_image·play_pause_button_image·next_button_image·playlist_or_exit_button_image·tv_common_title_login_btn 이라, 펼칠 때는 제목 글자가 아니라 song_name_text 를 누르고 큐는 playlist_or_exit_button_image 로 바로 연다. (2) 세션 제목과 화면 글자가 다르다(‘좋은 날 (Inst.)’ ↔ ‘좋은 날’)서 목록에서는 {titleBase} 로 부분 일치를 본다. (3) compat 셔플·반복 커스텀 액션은 androidx 와 형식이 같은데도 아무 변화가 없어 화면 버튼(ivMPShuffleBtn·ivMPRepeatBtn) 레시피를 넣었다. 3차 실기기 검증(2026-09-06) 반영: (4) 미니 플레이어의 song_name_text 는 clickable=false 이고 부모 ll_mini_player_start_body(LinearLayout [53,1557][701,1699]) 도 clickable=false 라 click 이 안 먹었다. 그래서 펼치기는 clickAt(좌표 제스처) 로 ll_mini_player_start_body 한가운데를 누르고, 그래도 안 열리면 song_name_text 한가운데를 한 번 더 누른다. (5) 앱이 이미 앞에 있는데 launch 가 런처 인텐트를 또 던지면 지니가 전체 플레이어를 접고 홈으로 돌아갔다. 이제 launch 단계는 그 앱 창이 최상위면 아무것도 하지 않는다(앱 쪽 수정). 미검증: 좋아요 상태(접근성 트리에 전혀 안 나온다), 삭제 확인창 유무, 셔플·반복 버튼을 눌렀을 때 실제로 바뀌는지.",
   "capabilities": [
     "TRANSPORT",
     "SEEK",
@@ -40,7 +40,30 @@
           "op": "ifPresent",
           "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" },
           "else": [
-            { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" } }
+            {
+              "op": "ifPresent",
+              "selector": { "id": "com.ktmusic.geniemusic:id/ll_mini_player_start_body" },
+              "then": [
+                {
+                  "op": "clickAt",
+                  "selector": { "id": "com.ktmusic.geniemusic:id/ll_mini_player_start_body" },
+                  "xPercent": 50,
+                  "yPercent": 50
+                }
+              ]
+            },
+            {
+              "op": "ifPresent",
+              "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" },
+              "then": [
+                {
+                  "op": "clickAt",
+                  "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" },
+                  "xPercent": 50,
+                  "yPercent": 50
+                }
+              ]
+            }
           ]
         },
         {
@@ -63,7 +86,30 @@
           "op": "ifPresent",
           "selector": { "id": "com.ktmusic.geniemusic:id/ivMPLikeBtn" },
           "else": [
-            { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" } }
+            {
+              "op": "ifPresent",
+              "selector": { "id": "com.ktmusic.geniemusic:id/ll_mini_player_start_body" },
+              "then": [
+                {
+                  "op": "clickAt",
+                  "selector": { "id": "com.ktmusic.geniemusic:id/ll_mini_player_start_body" },
+                  "xPercent": 50,
+                  "yPercent": 50
+                }
+              ]
+            },
+            {
+              "op": "ifPresent",
+              "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" },
+              "then": [
+                {
+                  "op": "clickAt",
+                  "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" },
+                  "xPercent": 50,
+                  "yPercent": 50
+                }
+              ]
+            }
           ]
         },
         {
@@ -86,7 +132,30 @@
           "op": "ifPresent",
           "selector": { "id": "com.ktmusic.geniemusic:id/ivMPShuffleBtn" },
           "else": [
-            { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" } }
+            {
+              "op": "ifPresent",
+              "selector": { "id": "com.ktmusic.geniemusic:id/ll_mini_player_start_body" },
+              "then": [
+                {
+                  "op": "clickAt",
+                  "selector": { "id": "com.ktmusic.geniemusic:id/ll_mini_player_start_body" },
+                  "xPercent": 50,
+                  "yPercent": 50
+                }
+              ]
+            },
+            {
+              "op": "ifPresent",
+              "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" },
+              "then": [
+                {
+                  "op": "clickAt",
+                  "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" },
+                  "xPercent": 50,
+                  "yPercent": 50
+                }
+              ]
+            }
           ]
         },
         {
@@ -108,7 +177,30 @@
           "op": "ifPresent",
           "selector": { "id": "com.ktmusic.geniemusic:id/ivMPRepeatBtn" },
           "else": [
-            { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" } }
+            {
+              "op": "ifPresent",
+              "selector": { "id": "com.ktmusic.geniemusic:id/ll_mini_player_start_body" },
+              "then": [
+                {
+                  "op": "clickAt",
+                  "selector": { "id": "com.ktmusic.geniemusic:id/ll_mini_player_start_body" },
+                  "xPercent": 50,
+                  "yPercent": 50
+                }
+              ]
+            },
+            {
+              "op": "ifPresent",
+              "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" },
+              "then": [
+                {
+                  "op": "clickAt",
+                  "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" },
+                  "xPercent": 50,
+                  "yPercent": 50
+                }
+              ]
+            }
           ]
         },
         {
@@ -141,7 +233,30 @@
               "op": "ifPresent",
               "selector": { "id": "com.ktmusic.geniemusic:id/ivMPPlaylistBtn" },
               "else": [
-                { "op": "click", "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" } }
+                {
+                  "op": "ifPresent",
+                  "selector": { "id": "com.ktmusic.geniemusic:id/ll_mini_player_start_body" },
+                  "then": [
+                    {
+                      "op": "clickAt",
+                      "selector": { "id": "com.ktmusic.geniemusic:id/ll_mini_player_start_body" },
+                      "xPercent": 50,
+                      "yPercent": 50
+                    }
+                  ]
+                },
+                {
+                  "op": "ifPresent",
+                  "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" },
+                  "then": [
+                    {
+                      "op": "clickAt",
+                      "selector": { "id": "com.ktmusic.geniemusic:id/song_name_text" },
+                      "xPercent": 50,
+                      "yPercent": 50
+                    }
+                  ]
+                }
               ]
             },
             {
