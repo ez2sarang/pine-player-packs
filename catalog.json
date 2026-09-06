@@ -14,12 +14,12 @@
     {
       "id": "genie",
       "packageName": "com.ktmusic.geniemusic",
-      "version": 4,
+      "version": 5,
       "nameKo": "지니",
       "tier": "AD_UNLOCK",
       "url": "https://raw.githubusercontent.com/ez2sarang/pine-player-packs/main/packs/genie.json",
-      "sha256": "9fc09d8efa7fe474bbff5559da26300858823d5650612928a410d9fe4b792d55",
-      "size": 12748
+      "sha256": "74115b51245806ab45e9542e60f4bd038cc4bf137412da2f6c2e9e135ae05764",
+      "size": 16118
     },
     {
       "id": "bugs",
