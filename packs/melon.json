@@ -1,14 +1,14 @@
 {
   "format": 1,
   "id": "melon",
-  "version": 5,
+  "version": 6,
   "nameKo": "멜론",
   "nameEn": "Melon",
   "aliases": ["멜론", "멜론에서", "melon"],
   "packageName": "com.iloen.melon",
   "tier": "AD_UNLOCK",
   "unlockHours": 24,
-  "note": "2026-09-05 실기기(6.25.2.1, 로그아웃 상태) 조사값. 세션 비트 실측: STOP/PAUSE/PLAY/SKIP_PREV/SKIP_NEXT/SEEK_TO/PLAY_PAUSE/PLAY_FROM_SEARCH. 커스텀 액션은 Shuffle Off/Repeat Off 로 상태와 무관하게 고정이라 셔플·반복은 넣지 않았다. playlistRemove 는 '현재 재생목록(큐)에서 빼기'다. 내 플레이리스트 편집은 로그인 후 조사. 2차 실기기 검증(2026-09-06): 로그아웃이면 '전곡 듣기는 로그인 후…' 배너가 미니 플레이어 줄을 덮어 접근성 트리에 content 와 '로그인 팝업 닫기' 두 노드만 남는다. 그래서 모든 레시피가 앵커(재생목록으로 이동)를 기다리기 전에 배너를 닫고, 곡이 바뀌면 다시 뜨므로 앵커를 잡은 뒤 한 번 더 닫는다. 3차 실기기 검증(2026-09-06): 좋아요는 배너 닫기→앵커→더보기→btn_like 까지 눌렸는데 멜론이 ‘로그인이 필요한 서비스입니다. 로그인하시겠습니까?’ 다이얼로그를 띄워 다음 close_btn 단계가 실패했다. 이제 누른 뒤에 그 다이얼로그를 보고, 있으면 취소·아니오·아니요 중 하나를 누르고 로그인하라고 말하며 끝낸다. 5차 실기기 검증(2026-09-06) 반영: (1) 홈 화면(미니 플레이어)에서 좋아요가 5-click 에서 막혔다. desc=\"더보기\"(⋯)는 **전체 플레이어에만** 있고 미니 플레이어에는 이전·재생·다음·재생목록만 있어서다. 앵커(재생목록으로 이동)는 미니 플레이어에도 있어 3단계는 그냥 통과한다. 그래서 앵커를 잡은 뒤 '더보기'가 있는지 보고, 없으면 미니 플레이어를 clickAt 으로 눌러 펼친 다음 '더보기'를 기다린다. 누를 자리는 멜론이 쓰는 desc 관례를 그대로 쓴다 — 재생목록 행이 '좋은 날, 아티스트: 아이유', 재생 화면 앨범아트가 '아티스트: 아이유, 좋은 날 앨범아트 표시됨' 이라 '{title}, 아티스트: {artist}' → '{titleBase} 앨범아트' 순서로 본다. 둘 다 지금 곡에 매인 셀렉터라 홈의 다른 목록을 잘못 누를 일이 없다. 못 펼치면 '멜론 재생 화면을 열지 못했어요' 라고 이유를 말한다. (2) 좋아요가 로그인으로 끝나면 ⋯ 시트가 화면에 남아 다음 명령(좋아요 취소)까지 5-click 에서 연쇄로 막혔다. 이제 로그인 다이얼로그를 취소한 뒤 close_btn 으로 시트를 닫고 끝내며, 레시피 시작부에서도 앞선 실패가 남긴 시트를 먼저 닫는다. 미검증: 좋아요된 상태의 desc 문구, 미니 플레이어 노드의 정확한 desc, 재생목록 행의 체크박스(행이 컴포즈 노드 하나라 자식이 없어 좌표 6%로 누른다), 삭제 확인창 유무, 취소 버튼의 정확한 글자.",
+  "note": "2026-09-05 실기기(6.25.2.1, 로그아웃 상태) 조사값. 세션 비트 실측: STOP/PAUSE/PLAY/SKIP_PREV/SKIP_NEXT/SEEK_TO/PLAY_PAUSE/PLAY_FROM_SEARCH. 커스텀 액션은 Shuffle Off/Repeat Off 로 상태와 무관하게 고정이라 셔플·반복은 넣지 않았다. playlistRemove 는 '현재 재생목록(큐)에서 빼기'다. 내 플레이리스트 편집은 로그인 후 조사. 2차 실기기 검증(2026-09-06): 로그아웃이면 '전곡 듣기는 로그인 후…' 배너가 미니 플레이어 줄을 덮어 접근성 트리에 content 와 '로그인 팝업 닫기' 두 노드만 남는다. 그래서 모든 레시피가 앵커(재생목록으로 이동)를 기다리기 전에 배너를 닫고, 곡이 바뀌면 다시 뜨므로 앵커를 잡은 뒤 한 번 더 닫는다. 3차 실기기 검증(2026-09-06): 좋아요는 배너 닫기→앵커→더보기→btn_like 까지 눌렸는데 멜론이 ‘로그인이 필요한 서비스입니다. 로그인하시겠습니까?’ 다이얼로그를 띄워 다음 close_btn 단계가 실패했다. 이제 누른 뒤에 그 다이얼로그를 보고, 있으면 취소·아니오·아니요 중 하나를 누르고 로그인하라고 말하며 끝낸다. 5차 실기기 검증(2026-09-06) 반영: (1) 홈 화면(미니 플레이어)에서 좋아요가 5-click 에서 막혔다. desc=\"더보기\"(⋯)는 **전체 플레이어에만** 있고 미니 플레이어에는 이전곡·재생·다음곡·재생목록으로 이동만 있어서다. 앵커(재생목록으로 이동)는 미니 플레이어에도 있어 3단계는 그냥 통과한다. 그래서 앵커를 잡은 뒤 '더보기'가 있는지 보고, 없으면 미니 플레이어를 눌러 펼친 다음 '더보기'를 기다린다. (2) 좋아요가 로그인으로 끝나면 ⋯ 시트가 화면에 남아 다음 명령(좋아요 취소)까지 5-click 에서 연쇄로 막혔다. 이제 로그인 다이얼로그를 취소한 뒤 close_btn 으로 시트를 닫고 끝내며, 레시피 시작부에서도 앞선 실패가 남긴 시트를 먼저 닫는다. 6차 실기기 검증(2026-09-06) 반영: 시트 정리는 통과했고 미니 플레이어 펼치기가 또 실패했다. 홈 화면 덤프로 미니 플레이어를 실측했다 — 컨테이너가 com.iloen.melon:id/miniplayer_container (RelativeLayout, clickable=true, [0,1536][1248,1699]) 이고 그 안의 곡 정보 노드는 resource-id 없이 desc 만 '쿵쿵쿵 콩콩콩, 아티스트 음악도화지' 로, **구분자에 콜론이 없다**. 5차가 찾던 '{title}, 아티스트: {artist}'(콜론) 형태는 미니 플레이어에 없고, 홈 목록 행에서 '최신 해외곡, Sunburst, 아티스트 : RIIZE 이동' 처럼 콜론 양옆에 공백을 넣어 나온다 — 화면마다 구분자가 다르다. '앨범아트' 는 홈 덤프 세 개에 0회라 그 폴백은 지웠다(그 노드는 전체 플레이어에만 있는데 거기엔 이미 '더보기'가 있어 구조적으로 탈 수 없었다). 그래서 펼치기는 글자에 기대지 않고 clickable 인 miniplayer_container 를 직접 누르고, 그 id 가 없을 때만 '{title}, 아티스트' 접두 일치로 눌러 본다. 큐 행 셀렉터도 같은 이유로 '{title}, 아티스트' 접두 일치로 바꿨다. 미검증: 좋아요된 상태의 desc 문구, **큐(재생목록) 행의 desc 형식 — 5·6차 모두 드라이런이 앞 단계에서 멈춰 행을 본 적이 없다. 7차에서 덤프 예정**, 재생목록 행의 체크박스(행이 컴포즈 노드 하나라 자식이 없어 좌표 6%로 누른다), 삭제 확인창 유무, 취소 버튼의 정확한 글자.",
   "capabilities": [
     "TRANSPORT",
     "SEEK",
@@ -58,23 +58,18 @@
           "else": [
             {
               "op": "ifPresent",
-              "selector": { "descContains": "{title}, 아티스트: {artist}" },
+              "selector": { "id": "com.iloen.melon:id/miniplayer_container" },
               "then": [
-                {
-                  "op": "clickAt",
-                  "selector": { "descContains": "{title}, 아티스트: {artist}" },
-                  "xPercent": 50,
-                  "yPercent": 50
-                }
+                { "op": "click", "selector": { "id": "com.iloen.melon:id/miniplayer_container" } }
               ],
               "else": [
                 {
                   "op": "ifPresent",
-                  "selector": { "descContains": "{titleBase} 앨범아트" },
+                  "selector": { "descContains": "{title}, 아티스트" },
                   "then": [
                     {
                       "op": "clickAt",
-                      "selector": { "descContains": "{titleBase} 앨범아트" },
+                      "selector": { "descContains": "{title}, 아티스트" },
                       "xPercent": 50,
                       "yPercent": 50
                     }
@@ -152,23 +147,18 @@
           "else": [
             {
               "op": "ifPresent",
-              "selector": { "descContains": "{title}, 아티스트: {artist}" },
+              "selector": { "id": "com.iloen.melon:id/miniplayer_container" },
               "then": [
-                {
-                  "op": "clickAt",
-                  "selector": { "descContains": "{title}, 아티스트: {artist}" },
-                  "xPercent": 50,
-                  "yPercent": 50
-                }
+                { "op": "click", "selector": { "id": "com.iloen.melon:id/miniplayer_container" } }
               ],
               "else": [
                 {
                   "op": "ifPresent",
-                  "selector": { "descContains": "{titleBase} 앨범아트" },
+                  "selector": { "descContains": "{title}, 아티스트" },
                   "then": [
                     {
                       "op": "clickAt",
-                      "selector": { "descContains": "{titleBase} 앨범아트" },
+                      "selector": { "descContains": "{title}, 아티스트" },
                       "xPercent": 50,
                       "yPercent": 50
                     }
@@ -244,12 +234,12 @@
         { "op": "click", "selector": { "desc": "재생목록으로 이동" } },
         {
           "op": "waitFor",
-          "selector": { "descContains": "{title}, 아티스트: {artist}" },
+          "selector": { "descContains": "{title}, 아티스트" },
           "timeoutMs": 8000
         },
         {
           "op": "clickAt",
-          "selector": { "descContains": "{title}, 아티스트: {artist}" },
+          "selector": { "descContains": "{title}, 아티스트" },
           "xPercent": 6,
           "yPercent": 50
         },
